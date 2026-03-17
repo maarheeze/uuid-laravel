@@ -10,7 +10,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Maarheeze\\CalendarDate\\Laravel\\": "src/"
+            "Maarheeze\\Uuid\\Laravel\\": "src/"
         }
     },
     "autoload-dev": {

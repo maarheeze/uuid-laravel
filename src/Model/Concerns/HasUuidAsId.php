@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Maarheeze\CalendarDate\Laravel\Model\Concerns;
+namespace Maarheeze\Uuid\Laravel\Model\Concerns;
 
-use Maarheeze\CalendarDate\Laravel\Model\Casts\UuidCast;
+use Maarheeze\Uuid\Laravel\Model\Casts\UuidCast;
 use Maarheeze\Uuid\Uuid;
 use Maarheeze\Uuid\UuidException;
 use Maarheeze\Uuid\UuidInterface;
