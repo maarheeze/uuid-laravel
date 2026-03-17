@@ -1,0 +1,32 @@
+{
+    "name": "maarheeze/uuid-laravel",
+    "type": "library",
+    "license": "MIT",
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Maarheeze\\CalendarDate\\Laravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "illuminate/contracts": "^8.0|^9.0|^10.0|^11.0|^12.0",
+        "illuminate/database": "^8.0|^9.0|^10.0|^11.0|^12.0",
+        "maarheeze/uuid": "^1.0"
+    },
+    "require-dev": {
+        "maarheeze/phpcs": "^1.0",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^12"
+    }
+}
