@@ -1,5 +1,6 @@
 {
     "name": "maarheeze/uuid-laravel",
+    "description": "laravel integration for a simple uuid value object",
     "type": "library",
     "license": "MIT",
     "config": {
