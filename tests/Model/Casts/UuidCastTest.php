@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Model\Casts;
 
 use Illuminate\Database\Eloquent\Model;
-use Maarheeze\CalendarDate\Laravel\Model\Casts\UuidCast;
+use Maarheeze\Uuid\Laravel\Model\Casts\UuidCast;
 use Maarheeze\Uuid\Uuid;
 use Maarheeze\Uuid\UuidInterface;
 use PHPUnit\Framework\TestCase;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Helpers;
 
 use Illuminate\Database\Eloquent\Model;
-use Maarheeze\CalendarDate\Laravel\Model\Concerns\HasUuidAsId;
+use Maarheeze\Uuid\Laravel\Model\Concerns\HasUuidAsId;
 
 class TestModel extends Model
 {
