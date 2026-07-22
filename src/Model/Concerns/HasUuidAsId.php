@@ -12,7 +12,7 @@ use Maarheeze\Uuid\UuidInterface;
 use function is_string;
 
 /**
- * @property Uuid $id
+ * @property UuidInterface $id
  */
 trait HasUuidAsId
 {
