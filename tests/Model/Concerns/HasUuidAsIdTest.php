@@ -11,6 +11,8 @@ use Maarheeze\Uuid\Uuid;
 use Maarheeze\Uuid\UuidException;
 use Maarheeze\Uuid\UuidInterface;
 use PHPUnit\Framework\TestCase;
+use Tests\Helpers\TestId;
+use Tests\Helpers\TestIdModel;
 use Tests\Helpers\TestModel;
 
 class HasUuidAsIdTest extends TestCase
@@ -48,7 +50,28 @@ class HasUuidAsIdTest extends TestCase
         $model = $this->createModel();
 
         self::assertArrayHasKey('id', $model->getCasts());
-        self::assertSame(UuidCast::class, $model->getCasts()['id']);
+        self::assertSame(UuidCast::class . ':' . Uuid::class, $model->getCasts()['id']);
+    }
+
+    public function testInitializeRegistersCastForOverriddenIdClass(): void
+    {
+        $model = new TestIdModel();
+
+        self::assertSame(UuidCast::class . ':' . TestId::class, $model->getCasts()['id']);
+    }
+
+    public function testNewUniqueIdReturnsOverriddenIdClass(): void
+    {
+        $model = new TestIdModel();
+
+        self::assertInstanceOf(TestId::class, $model->newUniqueId());
+    }
+
+    public function testGetKeyReturnsOverriddenIdClass(): void
+    {
+        $model = new TestIdModel(['id' => TestId::fromString('018e4c55-5b1a-7000-8000-000000000000')]);
+
+        self::assertInstanceOf(TestId::class, $model->getKey());
     }
 
     public function testNewUniqueIdReturnsUuidInterface(): void

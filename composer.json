@@ -23,9 +23,10 @@
         "php": "^8.4",
         "illuminate/contracts": "^13.0",
         "illuminate/database": "^13.0",
-        "maarheeze/uuid": "^2.0"
+        "maarheeze/uuid": "^3.0"
     },
     "require-dev": {
+        "ext-pdo_sqlite": "*",
         "maarheeze/phpcs": "^2.0",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^13"

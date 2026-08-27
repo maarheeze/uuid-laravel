@@ -21,11 +21,19 @@ trait HasUuidAsId
         $this->usesUniqueIds = true;
 
         $this->mergeCasts([
-            'id' => UuidCast::class,
+            'id' => UuidCast::class . ':' . $this->idClass(),
         ]);
     }
 
-    final public function getKey(): UuidInterface
+    /**
+     * @return class-string<UuidInterface>
+     */
+    protected function idClass(): string
+    {
+        return Uuid::class;
+    }
+
+    public function getKey(): UuidInterface
     {
         $key = $this->getAttribute($this->getKeyName());
 
@@ -59,7 +67,7 @@ trait HasUuidAsId
     /** @phpstan-ignore method.childReturnType */
     public function newUniqueId(): UuidInterface
     {
-        return Uuid::generate();
+        return $this->idClass()::generate();
     }
 
     protected function isValidUniqueId(mixed $value): bool
@@ -68,7 +76,7 @@ trait HasUuidAsId
             return false;
         }
 
-        Uuid::fromString($value);
+        $this->idClass()::fromString($value);
 
         return true;
     }

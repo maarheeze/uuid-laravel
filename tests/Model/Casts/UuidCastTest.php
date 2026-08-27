@@ -7,8 +7,9 @@ namespace Tests\Model\Casts;
 use Illuminate\Database\Eloquent\Model;
 use Maarheeze\Uuid\Laravel\Model\Casts\UuidCast;
 use Maarheeze\Uuid\Uuid;
-use Maarheeze\Uuid\UuidInterface;
 use PHPUnit\Framework\TestCase;
+use stdClass;
+use Tests\Helpers\TestId;
 use UnexpectedValueException;
 
 class UuidCastTest extends TestCase
@@ -28,8 +29,26 @@ class UuidCastTest extends TestCase
 
         $result = $cast->get($model, 'id', '018e4c55-5b1a-7000-8000-000000000000', []);
 
-        self::assertInstanceOf(UuidInterface::class, $result);
+        self::assertInstanceOf(Uuid::class, $result);
         self::assertSame('018e4c55-5b1a-7000-8000-000000000000', $result->toString());
+    }
+
+    public function testGetReturnsConfiguredUuidClassFromString(): void
+    {
+        $cast = new UuidCast(TestId::class);
+        $model = $this->createStub(Model::class);
+
+        $result = $cast->get($model, 'id', '018e4c55-5b1a-7000-8000-000000000000', []);
+
+        self::assertInstanceOf(TestId::class, $result);
+        self::assertSame('018e4c55-5b1a-7000-8000-000000000000', $result->toString());
+    }
+
+    public function testConstructorThrowsForClassNotImplementingUuidInterface(): void
+    {
+        $this->expectException(UnexpectedValueException::class);
+
+        new UuidCast(stdClass::class);
     }
 
     public function testGetThrowsForNonStringValue(): void
