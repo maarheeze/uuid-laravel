@@ -30,5 +30,8 @@
         "maarheeze/phpcs": "^2.0",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^13"
+    },
+    "suggest": {
+        "maarheeze/uuid-livewire": "Keeps typed uuids as Livewire component properties across requests"
     }
 }
