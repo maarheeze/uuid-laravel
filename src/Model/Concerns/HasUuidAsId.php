@@ -64,6 +64,17 @@ trait HasUuidAsId
         return $this->getKey()->toString();
     }
 
+    public function getRouteKey(): mixed
+    {
+        $routeKey = parent::getRouteKey();
+
+        if ($routeKey instanceof UuidInterface) {
+            return $routeKey->toString();
+        }
+
+        return $routeKey;
+    }
+
     /** @phpstan-ignore method.childReturnType */
     public function newUniqueId(): UuidInterface
     {

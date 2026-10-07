@@ -122,6 +122,27 @@ class HasUuidAsIdTest extends TestCase
         self::assertSame('018e4c55-5b1a-7000-8000-000000000000', $model->getQueueableId());
     }
 
+    public function testGetRouteKeyReturnsUuidString(): void
+    {
+        $model = $this->createModel(['id' => Uuid::fromString('018e4c55-5b1a-7000-8000-000000000000')]);
+
+        self::assertSame('018e4c55-5b1a-7000-8000-000000000000', $model->getRouteKey());
+    }
+
+    public function testGetRouteKeyReturnsOtherRouteKeyUnchanged(): void
+    {
+        $model = new class (['number' => 'KLNT-100']) extends TestModel {
+            protected $fillable = ['number'];
+
+            public function getRouteKeyName(): string
+            {
+                return 'number';
+            }
+        };
+
+        self::assertSame('KLNT-100', $model->getRouteKey());
+    }
+
     /**
      * @param array<string, mixed> $attributes
      */
