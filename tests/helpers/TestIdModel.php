@@ -7,7 +7,6 @@ namespace Tests\Helpers;
 use Illuminate\Database\Eloquent\Model;
 use Maarheeze\Uuid\Laravel\Model\Casts\UuidCast;
 use Maarheeze\Uuid\Laravel\Model\Concerns\HasUuidAsId;
-use Maarheeze\Uuid\UuidException;
 
 /**
  * @property TestId $id
@@ -15,6 +14,7 @@ use Maarheeze\Uuid\UuidException;
  */
 class TestIdModel extends Model
 {
+    /** @use HasUuidAsId<TestId> */
     use HasUuidAsId;
 
     /**
@@ -28,17 +28,6 @@ class TestIdModel extends Model
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      */
     protected $fillable = ['id', 'related_id'];
-
-    public function getKey(): TestId
-    {
-        $key = parent::getKey();
-
-        if (!$key instanceof TestId) {
-            throw new UuidException('Invalid uuid found');
-        }
-
-        return $key;
-    }
 
     /**
      * @return array<string, string>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Maarheeze\Uuid\Laravel\Model\Concerns;
 
+use Illuminate\Database\Eloquent\Model;
 use Maarheeze\Uuid\Laravel\Model\Casts\UuidCast;
 use Maarheeze\Uuid\Uuid;
 use Maarheeze\Uuid\UuidException;
@@ -13,6 +14,8 @@ use function is_string;
 use function sprintf;
 
 /**
+ * @template TId of UuidInterface = Uuid
+ *
  * @property UuidInterface $id
  */
 trait HasUuidAsId
@@ -26,11 +29,15 @@ trait HasUuidAsId
         ]);
     }
 
+    /**
+     * @return TId
+     */
     public function getKey(): UuidInterface
     {
         $key = $this->getAttribute($this->getKeyName());
+        $idClass = $this->idClass();
 
-        if (!$key instanceof UuidInterface) {
+        if (!$key instanceof $idClass) {
             throw new UuidException('Invalid uuid found');
         }
 
@@ -68,7 +75,30 @@ trait HasUuidAsId
         return $routeKey;
     }
 
-    /** @phpstan-ignore method.childReturnType */
+    /**
+     * @param Model|null $model
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     */
+    public function is($model): bool
+    {
+        if ($model === null) {
+            return false;
+        }
+
+        $otherKey = $model->getKey();
+
+        return $otherKey instanceof UuidInterface
+            && $this->getKey()->equals($otherKey)
+            && $this->getTable() === $model->getTable()
+            && $this->getConnectionName() === $model->getConnectionName();
+    }
+
+    /**
+     * @return TId
+     *
+     * @phpstan-ignore method.childReturnType
+     */
     public function newUniqueId(): UuidInterface
     {
         return $this->idClass()::generate();
@@ -83,7 +113,7 @@ trait HasUuidAsId
     }
 
     /**
-     * @return class-string<UuidInterface>
+     * @return class-string<TId>
      */
     protected function idClass(): string
     {

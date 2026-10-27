@@ -147,6 +147,69 @@ class HasUuidAsIdTest extends TestCase
         self::assertSame('KLNT-100', $model->getRouteKey());
     }
 
+    public function testIsReturnsTrueForAnotherInstanceWithTheSameId(): void
+    {
+        $id = Uuid::generate();
+        $model = $this->createModel(['id' => $id]);
+
+        $isSameModel = $model->is($this->createModel(['id' => $id]));
+
+        self::assertTrue($isSameModel);
+    }
+
+    public function testIsReturnsFalseForAnotherId(): void
+    {
+        $model = $this->createModel(['id' => Uuid::generate()]);
+
+        $isSameModel = $model->is($this->createModel(['id' => Uuid::generate()]));
+
+        self::assertFalse($isSameModel);
+    }
+
+    public function testIsReturnsFalseForNull(): void
+    {
+        $model = $this->createModel(['id' => Uuid::generate()]);
+
+        self::assertFalse($model->is(null));
+    }
+
+    public function testIsReturnsFalseForTheSameIdInAnotherTable(): void
+    {
+        $id = Uuid::generate();
+        $model = $this->createModel(['id' => $id]);
+        $modelInAnotherTable = new class (['id' => $id]) extends TestModel {
+            public function getTable(): string
+            {
+                return 'other_test_models';
+            }
+        };
+
+        $isSameModel = $model->is($modelInAnotherTable);
+
+        self::assertFalse($isSameModel);
+    }
+
+    public function testIsReturnsFalseForAModelWithoutUuidKey(): void
+    {
+        $model = $this->createModel(['id' => Uuid::generate()]);
+        $modelWithoutUuidKey = new class (['id' => 1]) extends Model {
+            /**
+             * @var list<string>
+             * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+             */
+            protected $fillable = ['id'];
+
+            public function getTable(): string
+            {
+                return 'test_models';
+            }
+        };
+
+        $isSameModel = $model->is($modelWithoutUuidKey);
+
+        self::assertFalse($isSameModel);
+    }
+
     /**
      * @param array<string, mixed> $attributes
      */
