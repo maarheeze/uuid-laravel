@@ -17,7 +17,16 @@ class TestIdModel extends Model
 {
     use HasUuidAsId;
 
+    /**
+     * @var bool
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+     */
     public $timestamps = false;
+
+    /**
+     * @var list<string>
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+     */
     protected $fillable = ['id', 'related_id'];
 
     public function getKey(): TestId

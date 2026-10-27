@@ -11,6 +11,10 @@ class TestModel extends Model
 {
     use HasUuidAsId;
 
+    /**
+     * @var list<string>
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+     */
     protected $fillable = ['id'];
 
     public function checkIsValidUniqueId(mixed $value): bool

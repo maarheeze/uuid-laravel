@@ -9,5 +9,5 @@
     <file>.</file>
     <exclude-pattern>./vendor</exclude-pattern>
 
-    <rule ref="maarheeze"/>
+    <rule ref="Maarheeze"/>
 </rule>

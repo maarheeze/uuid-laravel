@@ -14,25 +14,6 @@ class HasUuidAsIdDatabaseTest extends TestCase
 {
     private Capsule $capsule;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->capsule = new Capsule();
-        $this->capsule->addConnection([
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
-        ]);
-        $this->capsule->setAsGlobal();
-        $this->capsule->bootEloquent();
-
-        $this->capsule->schema()->create('test_id_models', static function (Blueprint $table): void {
-            $table->string('id')->primary();
-            $table->string('related_id')->nullable();
-        });
-    }
-
     public function testSavedModelIsRetrievedWithConfiguredIdClass(): void
     {
         $model = new TestIdModel();
@@ -56,6 +37,25 @@ class HasUuidAsIdDatabaseTest extends TestCase
 
         self::assertInstanceOf(TestId::class, $found->related_id);
         self::assertTrue($found->related_id->equals($related));
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->capsule = new Capsule();
+        $this->capsule->addConnection([
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
+        $this->capsule->setAsGlobal();
+        $this->capsule->bootEloquent();
+
+        $this->capsule->schema()->create('test_id_models', static function (Blueprint $table): void {
+            $table->string('id')->primary();
+            $table->string('related_id')->nullable();
+        });
     }
 
     protected function tearDown(): void

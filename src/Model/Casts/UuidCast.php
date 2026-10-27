@@ -22,8 +22,9 @@ class UuidCast implements CastsAttributes
     /** @var class-string<UuidInterface> */
     private string $uuidClass;
 
-    public function __construct(string $uuidClass = Uuid::class)
-    {
+    public function __construct(
+        string $uuidClass = Uuid::class,
+    ) {
         if (!is_a($uuidClass, UuidInterface::class, true)) {
             throw new UnexpectedValueException(
                 sprintf('Cast class %s does not implement %s', $uuidClass, UuidInterface::class),
@@ -33,6 +34,9 @@ class UuidCast implements CastsAttributes
         $this->uuidClass = $uuidClass;
     }
 
+    /**
+     * @param array<string, mixed> $attributes
+     */
     public function get(Model $model, string $key, mixed $value, array $attributes): ?UuidInterface
     {
         if ($value === null) {
@@ -46,6 +50,9 @@ class UuidCast implements CastsAttributes
         throw new UnexpectedValueException('Unable to cast value from Uuid');
     }
 
+    /**
+     * @param array<string, mixed> $attributes
+     */
     public function set(Model $model, string $key, mixed $value, array $attributes): ?string
     {
         if ($value === null) {

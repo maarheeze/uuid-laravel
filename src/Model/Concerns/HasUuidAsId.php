@@ -10,6 +10,7 @@ use Maarheeze\Uuid\UuidException;
 use Maarheeze\Uuid\UuidInterface;
 
 use function is_string;
+use function sprintf;
 
 /**
  * @property UuidInterface $id
@@ -21,16 +22,8 @@ trait HasUuidAsId
         $this->usesUniqueIds = true;
 
         $this->mergeCasts([
-            'id' => UuidCast::class . ':' . $this->idClass(),
+            'id' => sprintf('%s:%s', UuidCast::class, $this->idClass()),
         ]);
-    }
-
-    /**
-     * @return class-string<UuidInterface>
-     */
-    protected function idClass(): string
-    {
-        return Uuid::class;
     }
 
     public function getKey(): UuidInterface
@@ -81,6 +74,22 @@ trait HasUuidAsId
         return $this->idClass()::generate();
     }
 
+    /**
+     * @return array<string>
+     */
+    final public function uniqueIds(): array
+    {
+        return ['id'];
+    }
+
+    /**
+     * @return class-string<UuidInterface>
+     */
+    protected function idClass(): string
+    {
+        return Uuid::class;
+    }
+
     protected function isValidUniqueId(mixed $value): bool
     {
         if (!is_string($value)) {
@@ -90,13 +99,5 @@ trait HasUuidAsId
         $this->idClass()::fromString($value);
 
         return true;
-    }
-
-    /**
-     * @return array<string>
-     */
-    final public function uniqueIds(): array
-    {
-        return ['id'];
     }
 }

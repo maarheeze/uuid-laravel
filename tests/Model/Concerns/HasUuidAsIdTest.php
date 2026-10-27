@@ -132,6 +132,10 @@ class HasUuidAsIdTest extends TestCase
     public function testGetRouteKeyReturnsOtherRouteKeyUnchanged(): void
     {
         $model = new class (['number' => 'KLNT-100']) extends TestModel {
+            /**
+             * @var list<string>
+             * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+             */
             protected $fillable = ['number'];
 
             public function getRouteKeyName(): string
